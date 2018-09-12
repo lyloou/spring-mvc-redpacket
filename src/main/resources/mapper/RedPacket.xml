@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dao.RedPacketDao">
-    <select id="getRedPacket" parameterMap="long" resultType="com.example.pojo.RedPacket">
+    <select id="getRedPacket" parameterType="long" resultType="com.example.pojo.RedPacket">
         select
             id,
             user_id     as userId,
