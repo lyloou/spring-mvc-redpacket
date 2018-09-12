@@ -12,7 +12,16 @@ public class Home {
 
     @RequestMapping("/")
     public String home() {
-        logger.debug("=========== logger info =========== ");
+        return "index";
+    }
+
+    @RequestMapping("/log")
+    public String log() {
+        logger.debug("=========== logger debug =========== ");
+        logger.info("=========== logger info =========== ");
+        logger.warn("=========== logger warn =========== ");
+        logger.error("=========== logger error =========== ");
+        logger.fatal("=========== logger fatal =========== ");
         return "index";
     }
 }
