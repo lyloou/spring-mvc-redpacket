@@ -6,4 +6,6 @@ public interface UserRedPacketService {
     int grabRedPacketForUpdate(Long redPacketId, Long userId);
 
     int grabRedPacketForVersion(Long redPacketId, Long userId);
+
+    Long grabRedPacketByRedis(Long redPacketId, Long userId);
 }

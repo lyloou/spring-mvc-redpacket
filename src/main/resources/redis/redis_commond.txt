@@ -1,0 +1,4 @@
+hset red_packet_4 stock 10
+hset red_packet_4 unit_amount 10
+
+hget red_packet_4 stock
