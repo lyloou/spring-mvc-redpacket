@@ -17,6 +17,21 @@
         where id = #{id}
     </select>
 
+    <select id="getRedPacketForUpdate" parameterType="long" resultType="com.example.pojo.RedPacket">
+        select
+            id,
+            user_id     as userId,
+            amount,
+            send_date   as sendDate,
+            total,
+            unit_amount as unitAmount,
+            stock,
+            version,
+            note
+        from t_red_packet
+        where id = #{id} for update
+    </select>
+
     <update id="decreaseRedPacket">
         update t_red_packet
         set stock = stock - 1

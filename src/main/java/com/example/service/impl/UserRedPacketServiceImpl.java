@@ -24,7 +24,8 @@ public class UserRedPacketServiceImpl implements UserRedPacketService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public int grabRedPacket(Long redPacketId, Long userId) {
-        RedPacket redPacket = redPacketDao.getRedPacket(redPacketId);
+//        RedPacket redPacket = redPacketDao.getRedPacket(redPacketId);
+        RedPacket redPacket = redPacketDao.getRedPacketForUpdate(redPacketId);
         if (redPacket != null && redPacket.getStock() > 0) {
             redPacketDao.decreaseRedPacket(redPacketId);
 

@@ -39,7 +39,7 @@ public class RootConfig implements TransactionManagementConfigurer {
             return dataSource;
         }
         Properties props = new Properties();
-        props.setProperty("driverClassName", "com.mysql.jdbc.Driver");
+        props.setProperty("driverClassName", "com.mysql.cj.jdbc.Driver");
         props.setProperty("url", "jdbc:mysql://localhost:3306/chapter22");
         props.setProperty("username", "root");
         props.setProperty("password", "123456");

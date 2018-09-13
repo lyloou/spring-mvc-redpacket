@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 public interface RedPacketDao {
     RedPacket getRedPacket(Long id);
 
+    RedPacket getRedPacketForUpdate(Long id);
+
     int decreaseRedPacket(Long id);
 }
