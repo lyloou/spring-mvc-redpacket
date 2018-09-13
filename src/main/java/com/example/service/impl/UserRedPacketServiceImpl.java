@@ -61,23 +61,29 @@ public class UserRedPacketServiceImpl implements UserRedPacketService {
 
     @Override
     public int grabRedPacketForVersion(Long redPacketId, Long userId) {
-        RedPacket redPacket = redPacketDao.getRedPacket(redPacketId);
+        // try three times
+        for (int i = 0; i < 3; i++) {
+            RedPacket redPacket = redPacketDao.getRedPacket(redPacketId);
 
-        if (redPacket != null && redPacket.getStock() > 0) {
-            int update = redPacketDao.decreaseRedPacketForVersion(redPacketId, redPacket.getVersion());
-            if (update == 0) {
+            if (redPacket != null && redPacket.getStock() > 0) {
+                int update = redPacketDao.decreaseRedPacketForVersion(redPacketId, redPacket.getVersion());
+                if (update == 0) {
+                    continue;
+                }
+
+                UserRedPacket userRedPacket = new UserRedPacket();
+                userRedPacket.setRedPacketId(redPacketId);
+                userRedPacket.setUserId(userId);
+                userRedPacket.setAmount(redPacket.getAmount());
+                userRedPacket.setNote("抢红包 " + redPacketId);
+
+                int result = userRedPacketDao.grabRedPacket(userRedPacket);
+                return result;
+            } else {
                 return FAILED;
             }
-
-            UserRedPacket userRedPacket = new UserRedPacket();
-            userRedPacket.setRedPacketId(redPacketId);
-            userRedPacket.setUserId(userId);
-            userRedPacket.setAmount(redPacket.getAmount());
-            userRedPacket.setNote("抢红包 " + redPacketId);
-
-            int result = userRedPacketDao.grabRedPacket(userRedPacket);
-            return result;
         }
+
         return FAILED;
     }
 }
