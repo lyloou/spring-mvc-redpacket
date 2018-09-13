@@ -60,4 +60,9 @@ public class UserRedPacketController {
         retMap.put("message", flag ? "抢红包成功" : "抢红包失败");
         return retMap;
     }
+
+    @RequestMapping(value = "/grab")
+    public String grab() {
+        return "grab";
+    }
 }

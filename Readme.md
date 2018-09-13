@@ -8,7 +8,9 @@ v3: http://localhost:8080/userRedPacket/grabRedPacketForVersion?redPacketId=1&us
 
 v4: http://localhost:8080/userRedPacket/grabRedPacketByRedis?redPacketId=4&userId=2691
 
-注：
+v4-2: http://localhost:8080/userRedPacket/grab
+
+注1：
 v1-v3需要配置好mysql：`resource/mysql.sql`  
 v4需要先设置好redis  
 ```shell
@@ -16,6 +18,8 @@ hset red_packet_4 stock 10
 hset red_packet_4 unit_amount 10
 hget red_packet_4 stock
 ```
+
+注2：找不到grab.jsp的时候，用maven工具执行下`lifecycle/install`操作。
 
 ## 参考资料
 - [Java EE 互联网轻量级框架整合开发，第22章](#)
