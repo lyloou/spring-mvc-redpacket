@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -19,9 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
-import redis.clients.jedis.JedisPoolConfig;
 
 import javax.sql.DataSource;
+import java.time.Duration;
 import java.util.Properties;
 
 @Configuration
@@ -83,16 +85,17 @@ public class RootConfig implements TransactionManagementConfigurer {
     @Bean("redisTemplate")
     @SuppressWarnings("unchecked")
     public RedisTemplate initRedisTemplate() {
-        JedisPoolConfig config = new JedisPoolConfig();
-        config.setMaxIdle(50);
-        config.setMaxTotal(100);
-        config.setMaxWaitMillis(20000);
 
-        JedisConnectionFactory connectionFactory = new JedisConnectionFactory(config);
-        connectionFactory.setHostName("127.0.0.1");
-        connectionFactory.setPort(6379);
-        connectionFactory.afterPropertiesSet();
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName("127.0.0.1");
+        redisStandaloneConfiguration.setPort(6379);
+        redisStandaloneConfiguration.setDatabase(0);
 
+        JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
+        jedisClientConfiguration.connectTimeout(Duration.ofMillis(30000));//  connection timeout
+
+        JedisConnectionFactory connectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration,
+                jedisClientConfiguration.build());
 
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(connectionFactory);
